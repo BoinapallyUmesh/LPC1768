@@ -1,0 +1,1363 @@
+ //	   Toggle 1 led
+
+/*#include<lpc17xx.h>
+#define led (1<<19)
+void delay(unsigned int i);
+int main(){
+LPC_GPIO1->FIODIR|=led;	 
+while(1){	
+LPC_GPIO1->FIOSET=led;
+  
+delay(1000);
+LPC_GPIO1->FIOCLR=led;
+delay(1000);
+}}
+void delay(unsigned int i){
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+} */
+
+ //Toggle led One by one
+
+/*#include<lpc17xx.h>
+#define led (0xff<<19)
+void delay(unsigned int i);
+int main(){
+int a;
+LPC_GPIO1->FIODIR|=led;
+LPC_GPIO1->FIOCLR=led;
+while(1){
+for(a=19;a<=26;a++){
+LPC_GPIO1->FIOSET=(1<<a);
+delay(100);
+LPC_GPIO1->FIOCLR=(1<<a);
+delay(100);	}
+for(a=26;a>=19;a--){
+LPC_GPIO1->FIOSET=(1<<a);
+delay(100);
+LPC_GPIO1->FIOCLR=(1<<a);
+delay(100);
+}																																			2
+}}
+void delay(unsigned int i)
+{							 
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+} */
+
+//Toggle  2 leds at a time
+
+/*#include<lpc17xx.h>
+#define led (0xff<<19)
+void delay(unsigned int i);
+int main(){
+unsigned int a,num[10]={0x81,0x42,0x24,0x18,0x24,0x42,0x81};
+LPC_GPIO1->FIODIR|=led;
+LPC_GPIO1->FIOCLR=led;
+while(1){
+for(a=0;a<=7;a++){
+LPC_GPIO1->FIOSET=(num[a]<<19);
+delay(10);
+LPC_GPIO1->FIOCLR=( num[a]<<19);
+delay(10);	}
+
+}}
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+} */
+
+//BUZZER
+
+/*#include<lpc17xx.h>
+#define buzzer (1<<22)
+void delay(unsigned int i);
+int main(){
+LPC_GPIO1->FIODIR|=buzzer;
+LPC_GPIO1->FIOCLR=buzzer;
+while(1){
+LPC_GPIO1->FIOSET=buzzer;
+delay(100);
+LPC_GPIO1->FIOCLR=buzzer;
+delay(100);
+}
+}
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+}*/
+
+//Switch
+
+/*#include<lpc17xx.h>
+void delay(unsigned int i);
+#define sw (1<<12) //input
+#define led (1<<24)	//output
+int main()
+{
+LPC_GPIO2->FIODIR&=~sw;	  //input;
+LPC_GPIO1->FIODIR|=led;	//output;
+LPC_GPIO1->FIOCLR=led;
+while(1)
+{
+if((LPC_GPIO2->FIOPIN&(sw)))
+{
+LPC_GPIO2->FIOSET=led;
+delay(100);
+}
+else
+{
+
+LPC_GPIO2->FIOCLR=led;
+delay(100);
+}
+}
+}
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+}*/
+
+//Relay
+
+/*#include<lpc17xx.h>
+#define relay (1<<28)
+void delay(unsigned int i);
+int main(){
+LPC_GPIO1->FIODIR|=relay;
+LPC_GPIO1->FIOCLR=relay;
+while(1){
+LPC_GPIO1->FIOSET=relay;
+delay(1000);
+LPC_GPIO1->FIOCLR=relay;
+delay(1000);}}
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<1275;k++);
+}*/
+
+//DC MOTOR
+
+/*#include<lpc17xx.h>
+#define IN1 (1<<17)
+#define IN2 (1<<16)
+void delay(unsigned int i);
+int main(){
+LPC_GPIO1->FIODIR|=IN1|IN2;
+while(1){
+LPC_GPIO1->FIOSET=IN1;
+LPC_GPIO1->FIOCLR=IN2;
+delay(1000);
+LPC_GPIO1->FIOCLR=IN1;
+LPC_GPIO1->FIOSET=IN2;
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);
+}
+
+
+
+	//KEYPAD
+
+ #include<lpc17xx.h>
+ #include"LCD.h"
+#define rows (0xF<<4)
+#define cols (0xF<<0)
+void row_scan(void);
+void cols_scan(void);
+int main(){
+lcd_config();
+while(1){
+row_scan();}}
+
+void row_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR=(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR&=~(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&rows);//check the status 
+val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_str("U");
+				delay(300);
+				break;
+
+	 case 0x0D:
+                lcd_str("M");
+				delay(300);
+				break;
+
+	 case 0x0B:
+                lcd_str("E");
+				delay(300);
+				break;
+	case 0x07:
+                lcd_str("E");
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+  }
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);
+}
+
+//LCD
+
+  */
+
+	//KEYPAD
+
+ /*#include<lpc17xx.h>
+ #include"lcdname.c"
+ #include"LCD.h"
+#define rows (0xF<<4)
+#define cols (0xF<<0)
+void row_scan(void);
+void cols_scan(void);
+int main(){
+lcd_config();
+while(1){
+row_scan();}}
+
+void row_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR=(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR&=~(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&rows);//check the status 
+val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_str("umesh");
+				delay(300);
+				break;
+
+	 case 0x0D:
+                lcd_str("love ");
+				delay(300);
+				break;
+
+	 case 0x0B:
+                lcd_str("umesh");
+				delay(300);
+				break;
+	case 0x07:
+                lcd_str("chand");
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+  }
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);
+}  */
+
+//KEYPAD WITH ROWS AND COLUMNS
+/*#include<lpc17xx.h>
+#include"lcdname.c"
+#include"LCD.h"
+#define rows (0xF<<4)
+#define cols (0xF<<0)
+void row_scan(void);
+void col1_scan(void);
+void col2_scan(void);
+void col3_scan(void);
+void col4_scan(void);
+int main(){
+lcd_config();
+while(1){
+row_scan();}}
+void col1_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR&=~(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR|=(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&cols);//check the status 
+//val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_num(1);
+				delay(300);
+				break;
+
+	 case 0x0D:
+	            lcd_num(2);
+				delay(300);
+				break;
+
+	 case 0x0B:
+	            lcd_num(3);
+				delay(300);
+				break;
+	case 0x07:
+	   		    lcd_data('+');
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+}
+void col2_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR&=~(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR|=(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&cols);//check the status 
+//val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_num(4);
+				delay(300);
+				break;
+
+	 case 0x0D:
+	            lcd_num(5);
+				delay(300);
+				break;
+
+	 case 0x0B:
+	            lcd_num(6);
+				delay(300);
+				break;
+	case 0x07:
+	   		    lcd_data('-');
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+}void col3_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR&=~(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR|=(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&cols);//check the status 
+//val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_num(7);
+				delay(300);
+				break;
+
+	 case 0x0D:
+	            lcd_num(8);
+				delay(300);
+				break;
+
+	 case 0x0B:
+	            lcd_num(9);
+				delay(300);
+				break;
+	case 0x07:
+	   		    lcd_data('*');
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+}void col4_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR&=~(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR|=(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&cols);//check the status 
+//val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                lcd_data('%');
+				delay(300);
+				break;
+
+	 case 0x0D:
+	            lcd_data('/');
+				delay(300);
+				break;
+
+	 case 0x0B:
+	            lcd_data('=');
+				delay(300);
+				break;
+	case 0x07:
+	   		    lcd_data('_');
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+}
+void row_scan(void){
+unsigned int val;
+LPC_GPIO2->FIODIR=(0xF<<0);// COLUMNS->OUTPUT
+LPC_GPIO2->FIODIR&=~(0xF<<4);//INPUR->ROWS
+val=(LPC_GPIO2->FIOPIN&rows);//check the status 
+val=val>>4;
+switch(val){
+   
+   case 0x0E:
+                col1_scan();
+				delay(300);
+				break;
+
+	 case 0x0D:
+	            col2_scan();
+				delay(300);
+				break;
+
+	 case 0x0B:
+	             col3_scan();
+				delay(300);
+				break;
+	case 0x07:
+	   		    col4_scan();
+				delay(300);
+				break;
+
+	default:lcd_cmd(0x01);
+  }
+  }
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);
+}*/
+
+//ADC
+
+//Sensor LM 35 P0.25-AIN2
+
+/*#include<lpc17xx.h>
+#include"lcd.h"
+#include"lcdname.c"
+#define relay (1<<28)
+void delay(unsigned int i);
+int main(){
+unsigned int adc_value;
+lcd_config();		
+LPC_GPIO1->FIODIR|=relay;
+LPC_SC->PCONP |= (1<<12);//sc-system control,enablle power ADC
+LPC_SC->PCLKSEL0 |=(1<<25) | (1<<24);//Enable clk for adc
+LPC_PINCON->PINSEL1 |=(1<<18);//Config P0.25 of AIN2 AD0.2
+LPC_ADC->ADCR=(1<<2)|(4<<8)|(1<<16)|(1<<21);//Selct channel 2,clkdiv=4 setting peripheral speed,
+//Burstmode(16)=1enable continuous conversion,pdn(21)=1=set adc is in operation mode
+while(1){
+while(!(LPC_ADC->ADGDR&(1<<31)));//Check done bit set or not using polling state
+adc_value=(LPC_ADC->ADDR2 &(0xFFF<<4));//Read thedigital value to any variable
+adc_value=adc_value>>4;//right shift by 4 to get lsb
+adc_value=adc_value/13.6; //convert raw temp to degree centigrade
+lcd_cmd(0x01);
+lcd_cmd(0x80);
+lcd_str("TEMP");
+lcd_cmd(0xc0);
+lcd_num(adc_value);//display on lcd
+lcd_data(0xDF);
+lcd_str("c");
+delay(1000);
+
+if(adc_value>30){
+
+LPC_GPIO1->FIODIR=relay;
+delay(1000);
+}
+else{
+LPC_GPIO1->FIOCLR=relay;
+delay(1000);
+}
+}	
+void delay(unsigned int i){
+int j,k;	  
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);} */
+
+ //29/2/24
+  //Toggle Led P1.19 for  5Sec using timer 0
+									 
+/*#include<lpc17xx.h>
+void delay(int i);
+ int main(){
+ LPC_GPIO1->FIODIR |= (0xFF<<19);
+  //Timer Configuration
+LPC_SC->PCONP|=(1<<1); //Power Enable For Timer 0
+LPC_SC->PCLKSEL0|=(1<<2)|(1<<3); //Clock Enable for Timer 0;
+LPC_TIM0->PR=3; // Default Frequency= 4Mhz,We need to match  with this,setting Prescalar
+LPC_TIM0->MR0=100; //Match register ,holds the time 5 sec
+LPC_TIM0->MR1=400; //Match register ,holds the time 5 sec
+//LPC_TIM0->MR2=100000; //Match register ,holds the time 5 sec
+//LPC_TIM0->MR3=1000000; //Match register ,holds the time 5 sec
+LPC_TIM0->MCR=(1<<0)|(1<<3)|(1<<4); //Match control register ,MR0 in Interrupt and and Repeat mode
+LPC_TIM0->TCR=(1<<1); //Timer Control Register,Clear the enable Timer Counter
+LPC_TIM0->TCR=(1<<0); //Timer Control Register ,Enable Timer
+
+while(1){
+if(LPC_TIM0->IR & (1<<0)){ //Interrupt Register,Check the match condition is occured or not
+LPC_GPIO1->FIOSET = (1<<25); delay(200);
+LPC_GPIO1->FIOCLR = (1<<25); delay(200);
+LPC_TIM0->IR=(1<<0); // Clear the Interrupt
+}
+
+if(LPC_TIM0->IR & (1<<1)){ //Interrupt Register,Check the match condition is occured or not
+LPC_GPIO1->FIOSET = (1<<26); delay(200);
+LPC_GPIO1->FIOCLR = (1<<26); delay(200);
+LPC_TIM0->IR=(1<<1); // Clear the Interrupt 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+}
+}
+}
+void delay(int i){
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);}*/
+
+   //1/3/24
+//Interrupts
+
+//Generate Int from T0 and Toggle Led P1.26 for Every 3 sec in the ISR
+// Toggle Led P1.19 in the main Prgm
+/*
+#include<lpc17xx.h>
+void Timer_int_config(void);
+void delay(unsigned int a);
+int main() {
+LPC_GPIO1->FIODIR|= (0xFF<<20);
+//Timer Configuration
+    Timer_int_config();
+while(1){
+//Int Reg,check the match condition is occured or not
+LPC_GPIO1->FIOSET=(1<<19);delay(100);
+LPC_GPIO1->FIOCLR=(1<<19);delay(100);}}
+
+void Timer_int_config(void){
+LPC_SC->PCONP|(1<<4);
+LPC_SC->PCLKSEL0|=(1<<2)|(1<<3);
+LPC_TIM0->PR=3; //default Frequency=4 Mhz,we need to match with this,setting Prescalr reg
+LPC_TIM0->MR0=3000000;//Match Reg ,Holds the time 3 sec
+LPC_TIM0->MCR=(1<<1|(1<<0)); //Mat6ch Control Reg ,MR0 in Interrupt and repeat mode
+LPC_TIM0->TCR=(1<<1);  //Timer Control reg,clear the enable timer counter
+LPC_TIM0->TCR=(1<<0);  //Timer Control reg,clear the enable timer
+NVIC_EnableIRQ(TIMER0_IRQn); }
+
+void TIMER0_IRQHandler(void){
+LPC_GPIO1->FIOSET=(1<<26);	   delay(100);
+LPC_GPIO1->FIOCLR=(1<<26);	   delay(100);
+LPC_TIM0->IR=(1<<0);  }  //Clear Interrupt
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);}
+*/
+
+
+
+
+/*#include<lpc17xx.h>
+void Timer_int_config(void);
+void delay(unsigned int a);
+int main() {
+LPC_GPIO1->FIODIR|= (0xFF<<19);
+//Timer Configuration
+    Timer_int_config();
+while(1){
+//Int Reg,check the match condition is occured or not
+LPC_GPIO1->FIOSET=(1<<20);delay(100);
+LPC_GPIO1->FIOCLR=(1<<20);delay(100);}}
+
+void Timer_int_config(void){
+ //LPC_SC->PCONP|(1<<1);
+LPC_SC->PCONP|(1<<2);
+LPC_SC->PCLKSEL0|=(1<<4)|(1<<5);
+LPC_TIM1->PR=3; //default Frequency=4 Mhz,we need to match with this,setting Prescalr reg
+LPC_TIM1->MR0=3000000;//Match Reg ,Holds the time 3 sec
+LPC_TIM1->MCR=(1<<1|(1<<0)); //Match Control Reg ,MR0 in Interrupt and repeat mode
+LPC_TIM1->TCR=(1<<1);  //Timer Control reg,clear the enable timer counter
+LPC_TIM1->TCR=(1<<0);  //Timer Control reg,clear the enable timer
+NVIC_EnableIRQ(TIMER1_IRQn); }
+
+void TIMER1_IRQHandler(void){
+LPC_GPIO1->FIOSET=(1<<24);	   delay(100);
+LPC_GPIO1->FIOCLR=(1<<24);	   delay(100);
+
+LPC_TIM1->IR=(1<<0);  }  //Clear Interrupt
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);}
+
+//4/3/24
+//Generate an External Interrupt EINT2 from the switch P2.12 and using edge Triggering
+//Toggel 4 leds P1.21 - P1.24 in the external int ISR
+//Toggele led P1.19 in the main prgrm
+
+#include<lpc17xx.h>
+ #include"lcd.h"
+#include"lcdname.c"
+void External_Int_config();
+void delay(unsigned int a);		 
+int main(){
+LPC_GPIO1->FIODIR|=(0xff<<19);
+LPC_GPIO1->FIODIR|=(1<<27);
+LPC_GPIO1->FIOCLR=(1<<27);
+External_Int_config();
+lcd_config();
+lcd_cmd(0x80);
+while(1){
+LPC_GPIO1->FIOSET=(1<<19);delay(100);
+LPC_GPIO1->FIOCLR=(1<<19);delay(100); }}
+void External_Int_config(){
+LPC_PINCON->PINSEL4|=(1<<24);   //Config P2.12 as EINT2
+LPC_SC->EXTMODE|=(1<<2);       // Config EINT2 as Edge Trigger 
+ LPC_SC->EXTPOLAR|=(1<<2);	  //    Config EINT2 as Raising Trigger 
+ NVIC_EnableIRQ(EINT2_IRQn);}	//Enable EINT2 INT
+ void EINT2_IRQHandler(){
+ LPC_GPIO1->FIOSET=(0xF<<21);
+ delay(100);						  z 
+LPC_GPIO1->FIOCLR=(0xF<<21);
+ delay(100);
+  lcd_str("EINT2");
+  delay(200);
+  lcd_cmd(0x01);
+  LPC_GPIO1->FIOSET=(1<<27);
+ delay(200);
+LPC_GPIO1->FIOCLR=(1<<27);
+ delay(200);
+   LPC_SC->EXTINT=(1<<2);  }
+
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);}
+
+//	 Develop an ES Application Using to int read the analog data using ADC (INT mode)and Temp Sensor and Display on LCD for Every 5 Sec 
+#include<lpc17xx.h>
+#include"lcd.h"
+#include"lcdname.c"
+unsigned int adc_value;
+void Timer_int_config(void);
+void adc_config(void);
+
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);}
+
+int main(){
+lcd_config();
+Timer_int_config();
+adc_config();
+while(1){
+lcd_cmd(0x80);
+lcd_str("Temperature in ");
+lcd_data(0xdf);
+lcd_str("C:");
+lcd_cmd(0xc0);
+lcd_data(adc_value);
+lcd_data(0xdf);
+lcd_str("C");
+delay(500);
+lcd_cmd(0x01);}}
+
+void adc_config(){
+LPC_SC->PCONP |= (1<<12);
+LPC_SC->PCLKSEL0 |=(1<<25) | (1<<24);
+LPC_PINCON->PINSEL1 |=(1<<18);
+LPC_ADC->ADCR=(1<<2)|(4<<8)|(1<<16)|(1<<21);}
+
+void Timer_int_config(void){
+LPC_SC->PCONP|(1<<4);
+LPC_SC->PCLKSEL0|=(1<<2)|(1<<3);
+LPC_TIM0->PR=3; //default Frequency=4 Mhz,we need to match with this,setting Prescalr reg
+LPC_TIM0->MR0=5000000;//Match Reg ,Holds the time 3 sec
+LPC_TIM0->MCR=(1<<1|(1<<0)); //Mat6ch Control Reg ,MR0 in Interrupt and repeat mode
+LPC_TIM0->TCR=(1<<1);  //Timer Control reg,clear the enable timer counter
+LPC_TIM0->TCR=(1<<0);  //Timer Control reg,clear the enable timer
+NVIC_EnableIRQ(TIMER0_IRQn); }
+
+void TIMER0_IRQHandler(){
+while(!(LPC_ADC->ADGDR&(1<<31)));
+adc_value=(LPC_ADC->ADDR2 &(0xFFF<<4));
+adc_value=adc_value>>4;
+adc_value=adc_value/13.6;
+LPC_TIM0->IR=(1<<0); } 
+
+//Single Edge PWM Prgm
+
+#include<lpc17xx.h>
+#include"lcd.h"
+#include"lcdname.c"
+void delay(unsigned int a);
+int main(){
+lcd_config();
+LPC_GPIO1->FIODIR|=(0xff<<19);
+LPC_SC->PCONP|=(1<<6);
+LPC_SC->PCLKSEL0|=(1<<13)|(1<<12);
+LPC_PINCON->PINSEL3=(1<<9);
+LPC_PWM1->PR=3;
+LPC_PWM1->MR0=10000;
+LPC_PWM1->MCR=(1<<1);
+LPC_PWM1->LER=(1<<0);
+LPC_PWM1->PCR&=~(1<<2);//single edge or double edge
+LPC_PWM1->PCR|=(1<<10);	 //
+LPC_PWM1->TCR|=(1<<0)|(1<<3);
+lcd_cmd(0x80);
+while(1){
+LPC_PWM1->MR2=2500;
+LPC_PWM1->LER=(1<<2);
+lcd_str("Duty cycle:25%");
+delay(5000);
+lcd_cmd(0x01);
+LPC_PWM1->MR2=5000;
+LPC_PWM1->LER=(1<<2);
+lcd_str("Duty cycle:50%");
+delay(5000);
+lcd_cmd(0x01);
+LPC_PWM1->MR2=7500;
+LPC_PWM1->LER=(1<<2);
+lcd_str("Duty cycle:75%");
+delay(5000);
+lcd_cmd(0x01);
+LPC_PWM1->MR2=9500;
+LPC_PWM1->LER=(1<<2);
+lcd_str("Duty cycle:100%");
+delay(5000); 
+lcd_cmd(0x01);
+  }}
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);} */
+
+
+/*#include<lpc17xx.h>
+#include"lcd.h"
+#include"lcdname.c"
+void delay(unsigned int a);
+int main(){
+lcd_config();
+LPC_GPIO1->FIODIR|=(0xff<<19);
+LPC_SC->PCONP|=(1<<6);
+LPC_SC->PCLKSEL0|=(1<<13)|(1<<12);
+LPC_PINCON->PINSEL3=(1<<9);
+LPC_PWM1->PR=3;
+LPC_PWM1->MR0=10000;
+LPC_PWM1->MCR=(1<<1);
+LPC_PWM1->LER=(1<<0);
+LPC_PWM1->PCR=(1<<2);
+LPC_PWM1->PCR|=(1<<10);
+LPC_PWM1->TCR|=(1<<0)|(1<<3);
+lcd_cmd(0x80);
+while(1){
+LPC_PWM1->MR1=1500;
+LPC_PWM1->MR2=4000;
+LPC_PWM1->LER=(1<<1)|(1<<2);
+lcd_str("Duty cycle:25%");
+delay(5000);
+lcd_cmd(0x01);
+LPC_PWM1->MR1=1500;
+LPC_PWM1->MR2=6500;
+LPC_PWM1->LER=(1<<1)|(1<<2);
+lcd_str("Duty cycle:50%");
+delay(5000);
+lcd_cmd(0x01);
+LPC_PWM1->MR1=1500;
+LPC_PWM1->MR2=9000;
+LPC_PWM1->LER=(1<<1)|(1<<2);
+lcd_str("Duty cycle:75%");
+delay(5000);
+lcd_cmd(0x01);
+
+  }}
+void delay(unsigned int a){
+int j,k;
+for(j=0;j<a;j++)
+for(k=0;k<3000;k++);}
+
+//11/3/24
+
+//PLL-->Phase Locked Loop
+//Toggle all leds 5 times at default clk=4MHz
+//After 5 times switch on pll to 96 MHz,pclk=24Mhz(Toggling speed increases using pll
+//Go on Toggling leds
+
+#include<lpc17xx.h>
+void pll_96mhz(void)
+{
+LPC_SC->SCS=(1<<4)|(1<<5);
+LPC_SC->PLL0CON=0;//give feed signal
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;// check main osc stable r not
+while(!(LPC_SC->SCS&(1<<6)));
+//Select clk source from pll
+LPC_SC->CLKSRCSEL=1;
+//Config pll with
+LPC_SC->PLL0CFG=0x00F;//M=16, 16-1=15,N=1,1-1=0;//(0xF<<0)|(0<<16),,,,96Mhz
+//enable Pll
+LPC_SC->PLL0CON=1;
+//FEED SIGNAL
+LPC_SC->PLL0FEED=0xAA;
+  LPC_SC->PLL0FEED=0x55;
+  //DIVIDE CLK=FCC0/3
+  LPC_SC->CLKSRCSEL=3;
+  //CHECK PLL LOCKED R NOT
+while(!(LPC_SC->PLL0STAT&(1<<26)));
+//ENABLE PLL & CONNECT TO CPU
+LPC_SC->PLL0CON=(1<<0)|(1<<1);
+//FEED SIGNAL
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+}	
+void delay(unsigned int i)
+{
+int j,k;
+for(j=0;j<i;j++)
+for(k=0;k<3000;k++);
+}
+int main()
+{
+unsigned int count=0;
+LPC_GPIO1->FIODIR|=(0xFF<<19);
+while(1)
+  {
+    LPC_GPIO1->FIOSET=(0xFF<<19);
+    delay(300);
+    LPC_GPIO1->FIOCLR=(0xFF<<19);
+    delay(300);
+      if(count == 5)
+	  {
+	     pll_96mhz();
+      }
+	  count++;
+  }
+}	 
+
+#include<lpc17xx.h>
+void pll_48mhz(void)
+{
+   LPC_SC->SCS=(1<<4)|(1<<5);
+   LPC_SC->PLL0CON=0;
+   LPC_SC->PLL0FEED=0xAA;
+   LPC_SC->PLL0FEED=0x55;
+   while(!(LPC_SC->SCS&(1<<6)));
+   LPC_SC->CLKSRCSEL=1;
+   LPC_SC->PLL0CFG=0x007;
+   LPC_SC->PLL0CON=1;
+   LPC_SC->PLL0FEED=0xAA;
+   LPC_SC->PLL0FEED=0x55;
+   LPC_SC->CLKSRCSEL=3;
+   while(!(LPC_SC->PLL0STAT&(1<<26)));
+   LPC_SC->PLL0CON=(1<<0)|(1<<1);
+   LPC_SC->PLL0FEED=0xAA;
+   LPC_SC->PLL0FEED=0x55;
+}	
+void delay(unsigned int i)
+{
+   int j,k;
+   for(j=0;j<i;j++)
+   for(k=0;k<3000;k++);
+}
+int main()
+{
+    unsigned int count=0;
+    LPC_GPIO1->FIODIR|=(0xFF<<19);
+    while(1)
+    {
+      LPC_GPIO1->FIOSET=(0xFF<<19);
+      delay(300);
+      LPC_GPIO1->FIOCLR=(0xFF<<19);
+      delay(300);
+      if(count == 5)
+	  {
+	     pll_48mhz();
+      }
+	  count++;
+  }
+}  
+ //Watch Dog Timer
+ //configure pll at 96 mhz
+ //configure WDT for 6 sec
+ //Toggle led in a infinite loop P1.19--main func
+ //Toggle led P1.26 as reset indication ---wdt
+
+ #include<lpc17xx.h>
+ void delay(unsigned int i)
+{ 
+  int j,k;
+  for(j=0;j<i;j++)
+  for(k=0;k<3000;k++);
+}
+ void led_toggle(unsigned int a,unsigned int d)
+ {
+   LPC_GPIO1->FIOSET=(1<<a);
+   delay(d); 
+   LPC_GPIO1->FIOCLR=(1<<a);
+   delay(d); 
+ }
+void pll_96mhz(void)
+{
+LPC_SC->SCS=(1<<4)|(1<<5);
+LPC_SC->PLL0CON=0;
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+while(!(LPC_SC->SCS&(1<<6)));
+LPC_SC->CLKSRCSEL=1;
+LPC_SC->PLL0CFG=0x00F;
+LPC_SC->PLL0CON=1;
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+LPC_SC->CLKSRCSEL=3;
+while(!(LPC_SC->PLL0STAT&(1<<26)));
+LPC_SC->PLL0CON=(1<<0)|(1<<1);
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+}
+int main()
+{
+ pll_96mhz();
+ LPC_GPIO1->FIODIR|=(0xFF<<19);
+ led_toggle(26,2000);
+ LPC_WDT->WDCLKSEL=1;
+ LPC_WDT->WDMOD=(1<<1)|(1<<0);
+ LPC_WDT->WDTC=0x1FFFFFF;
+ LPC_WDT->WDFEED=0xAA;
+ LPC_WDT->WDFEED=0x55;
+while(1)
+  {
+    led_toggle(19,1000);
+}}	
+
+//Toggle led P1.26 as reset condition
+
+#include<lpc17xx.h>
+#include"lcd.h"
+#include"lcdname.c"
+void delay(unsigned int i)
+{ 
+  int j,k;
+  for(j=0;j<i;j++)
+  for(k=0;k<3000;k++);
+}
+void led_toggle(unsigned int a,unsigned int d)
+ {
+   LPC_GPIO1->FIOSET=(1<<a);
+   delay(d); 
+   LPC_GPIO1->FIOCLR=(1<<a);
+   delay(d); 
+ }
+void pll_96mhz(void)
+{
+LPC_SC->SCS=(1<<4)|(1<<5);
+LPC_SC->PLL0CON=0;
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+while(!(LPC_SC->SCS&(1<<6)));
+LPC_SC->CLKSRCSEL=1;
+LPC_SC->PLL0CFG=0x00F;
+LPC_SC->PLL0CON=1;
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+LPC_SC->CLKSRCSEL=3;
+while(!(LPC_SC->PLL0STAT&(1<<26)));
+LPC_SC->PLL0CON=(1<<0)|(1<<1);
+LPC_SC->PLL0FEED=0xAA;
+LPC_SC->PLL0FEED=0x55;
+}
+int main(){
+		   pll_96mhz();
+		   lcd_config();
+ LPC_GPIO1->FIODIR|=(0xFF<<19);
+
+ //Reset Indication
+ led_toggle(26,2000);
+ lcd_cmd(0x80);
+ lcd_str("Reset by WDT");
+ delay(1000);
+ lcd_cmd(0x01);
+ LPC_WDT->WDCLKSEL=1;
+ LPC_WDT->WDMOD=(1<<1)|(1<<0);
+ LPC_WDT->WDTC=0x1FFFFFF;
+ LPC_WDT->WDFEED=0xAA;
+ LPC_WDT->WDFEED=0x55;
+while(1)
+  {
+    led_toggle(19,1000);
+	if(LPC_GPIO2->FIOPIN&(1<<12))
+{
+ LPC_WDT->WDFEED=0xAA;
+ LPC_WDT->WDFEED=0x55;
+ while(1){
+ led_toggle(21,1000);
+}
+}
+}	
+}	*/
+
+ // 14/3/24
+
+// UART Protocal (ch 22)
+
+ //UARTbaudrate=PCLK/16*(256*UnDLM+UnDLL) * (1+DIVADDVAL/MUL VAL)
+
+ //line ctrl reg
+//DLL &DLM
+
+// P0.2,P0.3,cclk=96Mhz,pclk=24Mhz,DLL=146,DLM=0,MUL=15,DIV=1
+
+/*#include<lpc17xx.h>
+#include<string.h>
+#include "pll.c"
+#include "LCD.h"
+#include "lcdname.c"
+void tx(unsigned char a);
+void tx_str(unsigned char str[20]);
+void rx();
+void delay(unsigned int t);
+
+int main(){
+
+pll_96mhz();//pll@96 Mhz
+lcd_config();
+
+ //UART Configuration
+
+ LPC_SC->PCONP|=(1<<3); //	Enable power UART 0
+ LPC_PINCON->PINSEL0|=(1<<4)|(1<<6);//Config P0.2,P0.3 as Tx and Rx
+ LPC_UART0->LCR=(1<<0)|(1<<1)|(1<<7);//8 Bit mode,No parity,enable DLAB Bit
+ LPC_UART0->DLL=146;//load the baud rate for 9600
+ LPC_UART0->DLM=0;
+ LPC_UART0->FDR=(15<<4)|(1<<0);	//fractional divider reg  mul=15,div=1
+ LPC_UART0->LCR&=~(1<<7);//	Disable bit DLAB BIT
+ //LPC_UART0->FCR=(1<<0)|(1<<1)|(1<<2);
+while(1){
+// rx();
+ tx('v');
+ delay(100); }}
+
+
+	 
+void tx(unsigned char a){
+while(!(LPC_UART0->LSR&(1<<5))); //Check THR empty r not using polling method
+LPC_UART0->THR=a; //load the data to be transmitted to THR reg
+delay(100);
+}
+
+void tx_str(unsigned char str[20]){
+int i;
+for(i=0;str[i]!='\0';i++){
+tx(str[i]);
+delay(100);	 
+}
+}
+void rx(){
+unsigned char val;
+while(!(LPC_UART0->LSR&(1<<0))); //Check THR empty r not using polling method
+val=LPC_UART0->RBR; //Load the data to be txed to THR reg
+lcd_data(val);
+delay(100);} 
+
+void delay(unsigned int t)
+{ 
+  int j,k;
+  for(j=0;j<t;j++)
+  for(k=0;k<3000;k++);
+}
+
+  //19/03/24
+
+   //BLUETOOTH CONTROLLED ROBOT
+
+ //P0.2,P 0.3,cclk=96Mhz,pclk=24 Mhz,DLL=146,DLM=0,MUL=15,DIV=1
+ #include<lpc17xx.h>
+ #include"LCD.h"
+ #include"led1.c"
+ #include"systemclk_96.c"
+ #define IN1(1<<19)
+  #define IN2(1<<20)
+  void delay(unsigned int i);
+  void tx(unsigned char c);
+  unsigned char rx();
+    char val;
+ int main(){
+ int i;
+ pll_96mhz();//pll@96mhz
+ //UART Configuration
+ led_config();
+ LPC_SC->PCONP|=(1<<3); //	Enable power UART 0
+ LPC_PINCON->PINSEL0|=(1<<4)|(1<<6);//Config P0.2,P0.3 as Tx and Rx
+ LPC_UART0->LCR=(1<<0)|(1<<1)|(1<<7);//8 Bit mode,No parity,enable DLAB Bit
+ LPC_UART0->DLL=146;//load the baud rate for 9600
+ LPC_UART0->DLM=0;
+ LPC_UART0->FDR=(15<<4)|(1<<0);	//fractional divider reg  mul=15,div=1
+ LPC_UART0->LCR&=~(1<<7);//	Disable bit DLAB BIT
+ LPC_GPIO1->FIODIR=IN1|IN2;
+
+while(1){
+unsigned char data1;
+data1=rx();
+delay(1000);
+tx(data1);
+delay(1000);
+switch(data1){
+       case'F':
+	            lcd_cmd(0x01);
+                lcd_cmd(0x80);
+				lcd_str("Forward Movemnt");
+				LPC_GPIO1->FIOSET=IN1;
+				LPC_GPIO1->FIOCLR=IN2;
+				delay(1000);
+				break;
+	   case'B':
+	            lcd_cmd(0x01);
+                lcd_cmd(0x80);
+				lcd_str("Reverse Movemnt");
+				LPC_GPIO1->FIOCLR=IN1;
+				LPC_GPIO1->FIOSET=IN2;
+				delay(1000);
+				break;
+	           
+	   case'S':
+	            lcd_cmd(0x01);
+                lcd_cmd(0x80);
+				lcd_str("Stop");
+				LPC_GPIO1->FIOCLR=IN1;
+				LPC_GPIO1->FIOCLR=IN2;
+				delay(1000);
+				break; }}}
+ 
+  void tx(unsignend  char c){
+while(!(LPC_UART0->LSR&(1<<0))); //Check THR empty r not using polling method
+val=LPC_UART0->RBR; //Load the data to be txed to THR reg
+lcd_data(val);
+delay(100);} 
+
+unsigned char rx(){
+while(!(LPC_UART0->LSR&(1<<0))); //Check THR empty r not using polling method
+val=LPC_UART0->RBR; //Load the data to be txed to THR reg 
+ return val;}
+ void delay(unsigned int t)
+{ 
+  int j,k;
+  for(j=0;j<t;j++)
+  for(k=0;k<3000;k++);
+}  
+
+//RFID
+
+#include<lpc17xx.h>
+ #include"LCD.h"
+ #include"led1.c"
+ #include<string.h>
+ #define IN1 (1<<19)
+ #define IN2 (1<<20)
+ void tx_str(unsigned char str[20]);
+ unsigned  char rx();
+ void delay(unsigned int a);
+ void clear(void);
+ unsigned char a[8];//Increase the size by one to accomodate the null terminator
+ int count=0;//initialize count
+    int main(){
+	int i;
+	lcd_config();
+	 pll_96mhz();//pll@96mhz
+ //UART Configuration
+ led_config();
+ LPC_SC->PCONP|=(1<<3); //	Enable power UART 0
+ LPC_PINCON->PINSEL0|=(1<<4)|(1<<6);//Config P0.2,P0.3 as Tx and Rx
+ LPC_UART0->LCR=(1<<0)|(1<<1)|(1<<7);//8 Bit mode,No parity,enable DLAB Bit
+ LPC_UART0->DLL=146;//load the baud rate for 9600
+ LPC_UART0->DLM=0;
+ LPC_UART0->FDR=(15<<4)|(1<<0);	//fractional divider reg  mul=15,div=1
+ LPC_UART0->LCR&=~(1<<7);//	Disable bit DLAB BIT
+ LPC_GPIO1->FIODIR=IN1|IN2;
+
+ lcd_str("welcome");
+ lcd_cmd(0xC0);
+ lcd_str("Office");
+ delay(100);
+
+ while(1){
+ lcd_cmd(0x01);
+ lcd_cmd(0x80);
+ lcd_str("RFID Tag");
+          delay(10000);
+	      lcd_cmd(0x01); 
+
+ while(count < 8){
+ a[count]=rx();
+ count++;}
+ //Add null terminator to the received string
+ a[8]='\0';
+ for(i=0;i<8;i++){
+ lcd_data(a[i]);
+ delay(1000);}
+ if(!(strcmp("04255460",a))){
+ lcd_cmd(0x01);
+ lcd_cmd(0x80);
+ lcd_str("Employee no:1");
+ lcd_cmd(0xC0);
+ lcd_str(a);
+ delay(1000);}
+
+if(!(strcmp("04259028",a))){
+ lcd_cmd(0x01);
+ lcd_cmd(0x80);
+ lcd_str("Employee no:2");
+ lcd_cmd(0xC0);
+ lcd_str(a);
+ delay(1000);}
+   else{
+          lcd_cmd(0x01);
+          lcd_cmd(0x80);
+		  lcd_str("Invalid Tag");
+          lcd_cmd(0xC0);
+          lcd_str(a);
+          delay(1000);
+count=0;}  //Reset count for the next iteration
+
+unsigned char rx(){
+unsigned char val;
+while(!(LPC_UART0->LSR&(1<<0))); //Check THR empty r not using polling method
+val=
+LPC_UART0->RBR; //Load the data to be txed to THR reg 
+ return val;} } }
+
+
+
+ void delay(unsigned int t)
+{ 
+  int j,k;
+  for(j=0;j<t;j++)
+  for(k=0;k<3000;k++);
+} 
+
+  #21/3/24
+   #SPI Protocol
+
+#include<lpc17xx.h>
+//#include"LCD.h"
+//#include"led1.c"
+#include"pll.c"
+void spi_data(unsigned int d);
+void delay(unsigned int i);
+int main(){
+pll_96mhz();//cpuclk
+LPC_SC->PCONP|=(1<<10);//Enable power for SSP1
+LPC_SC->PCLKSEL0|=(1<<20)|(1<<21);//Enable clk to SSP1
+LPC_PINCON->PINSEL0|=(1<<15)|(1<<17)|(1<<19);//	 Config P0.7 to P0.9 as SPI pins
+LPC_GPIO0->FIODIR|=(1<<6);//p0.6--SS line //config SS pin P0.6 as GPIO output
+//SPI Configuration
+LPC_SSP1->CR0=(0xF<<0)|(1<<6)|(1<<7);//SPI in 16 bit mode,CPOL=1,CPHASE=2
+LPC_SSP1->CR1=(1<<1);  //Enable the SSP11 for Comm
+LPC_SSP1->CPSR=24;  	//Prescalr Reg Value=24Mhz//pclk
+//Slave Config MX7219(7 Segment)
+//Command Transmission
+             spi_data(0x090F); //Decode Mode
+			 spi_data(0x0A0F); //Intensity Ctrl Reg
+			 spi_data(0x0B03); //Scan Limit
+			 spi_data(0x0C01); //shutdown Reg,Normal Operation
+			 spi_data(0x0F01);//Display Test
+			 delay(1000);
+			 spi_data(0x0F00); 	 //Dummy Values //Normal; Operation
+  //Actual Data Transmission
+  while(1){
+         spi_data(0x0101);
+		 spi_data(0x0207);
+		 spi_data(0x0308); 	
+		 spi_data(0x0408); 	
+		 delay(2000);
+//		 spi_data(0x010C);
+//		 spi_data(0x020B);
+//		 spi_data(0x03D8); 
+//Turn Off All Segments
+           spi_data(0x02FF); 	
+		   spi_data(0x03FF); 	
+		   spi_data(0x040FF); 
+		   delay(2000);	}}
+ void spi_data(unsigned int d){
+ LPC_SSP1->DR=d; //Load the Data Reg
+ LPC_GPIO0->FIOCLR=(1<<6);     //Pull SS line to low(Gnd)
+ while(!(LPC_SSP1->SR&(1<<0))); //check Tx Buffer Empty r not Uisng Polling Method 
+ LPC_GPIO0->FIOSET=(1<<6);}
+ 
+ void delay(unsigned int t)
+{ 
+  int j,k;
+  for(j=0;j<t;j++)
+  for(k=0;k<3000;k++);
+} */
+
+ //NON DECODE MODE
+
+/*#include<lpc17xx.h>
+//#include"LCD.h"
+//#include"led1.c"
+#include"pll.c"
+void spi_data(unsigned int d);
+void delay(unsigned int i);
+int main(){
+pll_96mhz();//cpuclk
+LPC_SC->PCONP|=(1<<10);//Enable power for SSP1
+LPC_SC->PCLKSEL0|=(1<<20)|(1<<21);//Enable clk to SSP1
+LPC_PINCON->PINSEL0|=(1<<15)|(1<<17)|(1<<19);//	 Config P0.7 to P0.9 as SPI pins
+LPC_GPIO0->FIODIR|=(1<<6);//p0.6--SS line //config SS pin P0.6 as GPIO output
+//SPI Configuration
+LPC_SSP1->CR0=(0xF<<0)|(1<<6)|(1<<7);//SPI in 16 bit mode,CPOL=1,CPHASE=2
+LPC_SSP1->CR1=(1<<1);  //Enable the SSP11 for Comm
+LPC_SSP1->CPSR=24;  	//Prescalr Reg Value=24Mhz//pclk
+//Slave Config MX7219(7 Segment)
+//Command Transmission
+             spi_data(0x0900); //Decode Mode
+			 spi_data(0x0A0F); //Intensity Ctrl Reg
+			 spi_data(0x0B03); //Scan Limit
+			 spi_data(0x0C01); //shutdown Reg,Normal Operation
+			 spi_data(0x0F01);//Display Test
+			 delay(1000);
+			 spi_data(0x0F00); 	 //Dummy Values //Normal; Operation
+  //Actual Data Transmission
+  while(1){
+         spi_data(0x0177);
+		 spi_data(0x021F);
+		 spi_data(0x034E); 	
+		 spi_data(0x0403D); 	
+		 delay(2000);
+//		 spi_data(0x010C);
+//		 spi_data(0x020B);
+//		 spi_data(0x03D8); 
+//Turn Off All Segments
+           spi_data(0x02FF); 	
+		   spi_data(0x03FF); 	
+		   spi_data(0x040FF); 
+		   delay(2000);	}}
+ void spi_data(unsigned int d){
+ LPC_SSP1->DR=d; //Load the Data Reg
+ LPC_GPIO0->FIOCLR=(1<<6);     //Pull SS line to low(Gnd)
+ while(!(LPC_SSP1->SR&(1<<0))); //check Tx Buffer Empty r not Uisng Polling Method 
+ LPC_GPIO0->FIOSET=(1<<6);}
+ 
+ void delay(unsigned int t)
+{ 
+  int j,k;
+  for(j=0;j<t;j++)
+  for(k=0;k<3000;k++);
+} */
+
+
